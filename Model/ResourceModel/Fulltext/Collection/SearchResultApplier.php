@@ -5,7 +5,7 @@
      * @author Thomas Athanasiou {thomas@hippiemonkeys.com}
      * @link https://hippiemonkeys.com
      * @link https://github.com/Thomas-Athanasiou
-     * @copyright Copyright (c) 2022 Hippiemonkeys Web Inteligence EE All Rights Reserved.
+     * @copyright Copyright (c) 2023 Hippiemonkeys Web Inteligence EE All Rights Reserved.
      * @license http://www.gnu.org/licenses/ GNU General Public License, version 3
      * @package Hippiemonkeys_ModificationMagentoElasticsearch
      */
@@ -14,14 +14,13 @@
 
     namespace Hippiemonkeys\ModificationMagentoElasticsearch\Model\ResourceModel\Fulltext\Collection;
 
-    use Magento\Catalog\Api\Data\ProductInterface,
-        Magento\CatalogInventory\Model\StockStatusApplierInterface,
-        Magento\CatalogInventory\Model\ResourceModel\StockStatusFilterInterface,
+    use Magento\Framework\DB\Select,
         Magento\Framework\Api\Search\SearchResultInterface,
         Magento\Framework\App\Config\ScopeConfigInterface,
-        Magento\Framework\App\ObjectManager,
         Magento\Framework\Data\Collection,
         Magento\Framework\EntityManager\MetadataPool,
+        Magento\CatalogInventory\Model\StockStatusApplierInterface,
+        Magento\CatalogInventory\Model\ResourceModel\StockStatusFilterInterface,
         Magento\Elasticsearch\Model\ResourceModel\Fulltext\Collection\SearchResultApplier as ParentSearchResultApplier,
         Hippiemonkeys\Core\Api\Helper\ConfigInterface;
 
@@ -73,7 +72,7 @@
         }
 
         /**
-         * @inheritdoc
+         * {@inheritdoc}
          */
         public function apply()
         {
@@ -101,7 +100,7 @@
 
                 $collection->getSelect()
                     ->where('e.entity_id IN (?)', $ids)
-                    ->reset(\Magento\Framework\DB\Select::ORDER)
+                    ->reset(Select::ORDER)
                     ->order(new \Zend_Db_Expr(\sprintf('FIELD(e.entity_id,%s)', implode(',', $ids))));
             }
             else
@@ -118,6 +117,7 @@
          * @param array $items
          * @param int $size
          * @param int $currentPage
+         *
          * @return array
          */
         private function sliceItems(array $items, int $size, int $currentPage): array
@@ -154,6 +154,7 @@
          *
          * @param int $pageNumber
          * @param int $pageSize
+         *
          * @return int
          */
         private function getOffset(int $pageNumber, int $pageSize): int
@@ -174,26 +175,11 @@
         }
 
         /**
-         * Returns if display out of stock status set or not in catalog inventory
-         *
-         * @access private
-         *
-         * @return bool
-         */
-        private function hasShowOutOfStockStatus(): bool
-        {
-            return (bool) $this->getScopeConfig()->getValue(
-                \Magento\CatalogInventory\Model\Configuration::XML_PATH_SHOW_OUT_OF_STOCK,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-        }
-
-        /**
          * Collection property
          *
          * @access private
          *
-         * @var Magento\Framework\Data\Collection|\Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $_collection
+         * @var \Magento\Framework\Data\Collection|\Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $_collection
          */
         private $_collection;
 
@@ -202,7 +188,7 @@
          *
          * @access protected
          *
-         * @return Magento\Framework\Data\Collection|\Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection
+         * @return \Magento\Framework\Data\Collection|\Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection
          */
         protected function getCollection(): Collection
         {
