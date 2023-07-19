@@ -2,9 +2,9 @@
 <!--
     Thomas Athanasiou at Hippiemonkeys
     Copyright (c) 2023 Hippiemonkeys (https://hippiemonkeys.com)
-    Hippiemonkeys_ShippingTaxydromiki
+    Hippiemonkeys_ModificationMagentoElasticsearch
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <system>
         <section id="hippiemonkeys_modification">
             <group id="magento_elasticsearch" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1">
@@ -12,16 +12,18 @@
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="hippiemonkeys_modification/general/active">1</field>
-                    </depends>
                 </field>
-                <field id="search_result_applier_active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">
-                    <label>Search Result Applier Modification Status</label>
+                <field id="index_builder_active" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Index Builder Plugin Status</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
-                        <field id="hippiemonkeys_modification/magento_elasticsearch/active">1</field>
-                        <field id="cataloginventory/options/show_out_of_stock">1</field>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+                <field id="index_builder_max_result_window" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Index Builder Plugin Max Result Window</label>
+                    <depends>
+                        <field id="index_builder_active">1</field>
                     </depends>
                 </field>
             </group>

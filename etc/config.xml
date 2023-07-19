@@ -9,7 +9,8 @@
         <hippiemonkeys_modification>
             <magento_elasticsearch>
                 <active>1</active>
-                <search_result_applier_active>1</search_result_applier_active>
+                <index_builder_active>1</index_builder_active>
+                <index_builder_max_result_window>10000</index_builder_max_result_window>
             </magento_elasticsearch>
         </hippiemonkeys_modification>
     </default>

@@ -5,7 +5,6 @@
     Hippiemonkeys_ModificationMagentoElasticsearch
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\Elasticsearch\Model\ResourceModel\Fulltext\Collection\SearchResultApplier" type="Hippiemonkeys\ModificationMagentoElasticsearch\Model\ResourceModel\Fulltext\Collection\SearchResultApplier"/>
     <virtualType name="Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearch" type="Hippiemonkeys\Core\Helper\Config\Section\Group\Sub">
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
@@ -14,28 +13,25 @@
             <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\General</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearchCataloginventoryOptions" type="Hippiemonkeys\Core\Helper\Config\Section\Group\Sub">
-        <arguments>
-            <argument name="section" xsi:type="string">cataloginventory</argument>
-            <argument name="group" xsi:type="string">options</argument>
-            <argument name="activeField" xsi:type="string">show_out_of_stock</argument>
-            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearch</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearchSearchResultApplier" type="Hippiemonkeys\Core\Helper\Config\Section\Group\Sub">
+    <type name="Hippiemonkeys\ModificationMagentoElasticsearch\Helper\Config\IndexBuilder">
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
             <argument name="group" xsi:type="string">magento_elasticsearch</argument>
-            <argument name="activeField" xsi:type="string">search_result_applier_active</argument>
-            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearchCataloginventoryOptions</argument>
-        </arguments>
-    </virtualType>
-    <type name="Hippiemonkeys\ModificationMagentoElasticsearch\Model\ResourceModel\Fulltext\Collection\SearchResultApplier">
-        <arguments>
-            <argument name="config" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearchSearchResultApplier</argument>
+            <argument name="activeField" xsi:type="string">index_builder_active</argument>
+            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\MagentoElasticsearch</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
-        <plugin name="update_toolbar_count" disabled="true" />
+    <type name="Hippiemonkeys\ModificationMagentoElasticsearch\Plugin\IndexBuilder">
+        <arguments>
+            <argument name="config" xsi:type="object">Hippiemonkeys\ModificationMagentoElasticsearch\Helper\Config\IndexBuilder</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Elasticsearch\Model\Adapter\Index\Builder">
+        <plugin
+            name="hippiemonkeys_modificationmagentoelasticsearch_indexbuilder"
+            type="Hippiemonkeys\ModificationMagentoElasticsearch\Plugin\IndexBuilder"
+            sortOrder="10"
+            disabled="false"
+        />
     </type>
 </config>

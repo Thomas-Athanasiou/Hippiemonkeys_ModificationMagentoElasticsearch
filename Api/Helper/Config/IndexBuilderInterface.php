@@ -12,11 +12,20 @@
 
     declare(strict_types=1);
 
-    use Magento\Framework\Component\ComponentRegistrar;
+    namespace Hippiemonkeys\ModificationMagentoElasticsearch\Api\Helper\Config;
 
-    ComponentRegistrar::register(
-        ComponentRegistrar::MODULE,
-        'Hippiemonkeys_ModificationMagentoElasticsearch',
-        __DIR__
-    );
+    use Hippiemonkeys\Core\Api\Helper\ConfigInterface;
+
+    interface IndexBuilderInterface
+    extends ConfigInterface
+    {
+        /**
+         * Gets Max Result Window
+         *
+         * @access public
+         *
+         * @return int
+         */
+        function getMaxResultWindow(): int;
+    }
 ?>
